@@ -104,7 +104,10 @@ function AetherOS() {
   return (
     <div className="aether-shell">
       <header className="topbar">
-        <div className="brand"><span className="brand-mark"><Boxes size={13} /></span><span>AETHER OS</span></div>
+        <div className="topbar-left">
+          <div className="brand"><span className="brand-mark"><Boxes size={13} /></span><span>AETHER OS</span></div>
+          <CreatorCorner />
+        </div>
         <div className="topbar-right">
           {feed && <span className={`infocon-chip ${infoconTone[feed.infocon] ?? ''}`} title="Nivel de amenaza global de SANS ISC"><i />Infocon {feed.infocon}</span>}
           <span className="micro muted num hide-mobile">{now ? new Date(now).toISOString().slice(11, 19) + ' UTC' : ''}</span>
@@ -194,7 +197,6 @@ function AetherOS() {
         {view === 'guide' && <GuideView />}
       </main>
       <nav className="mobile-nav" aria-label="Módulos"><NavItems /></nav>
-      <CreatorCorner />
     </div>
   );
 }

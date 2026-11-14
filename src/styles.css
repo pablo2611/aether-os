@@ -129,7 +129,7 @@
   .topbar { grid-column: 1 / -1; position: sticky; top: 0; z-index: 30; display: flex; align-items: center; justify-content: space-between; gap: .75rem; padding: 0 clamp(.75rem, 2vw, 1.25rem); border-bottom: 1px solid var(--border); background: color-mix(in oklab, var(--sidebar) 92%, transparent); backdrop-filter: blur(10px); }
   .brand { display: flex; align-items: center; gap: .6rem; font-family: var(--font-mono); font-weight: 600; letter-spacing: .14em; font-size: .8rem; white-space: nowrap; }
   .brand-mark { width: 24px; height: 24px; border: 1px solid var(--primary); display: grid; place-items: center; color: var(--primary); border-radius: 5px; box-shadow: 0 0 18px -6px var(--primary); }
-  .topbar-right { display: flex; align-items: center; gap: .6rem; }
+  .topbar-left, .topbar-right { display: flex; align-items: center; gap: .6rem; }
   .infocon-chip { display: inline-flex; align-items: center; gap: .4rem; font: 500 .68rem var(--font-mono); text-transform: uppercase; letter-spacing: .08em; padding: .3rem .6rem; border: 1px solid var(--border); border-radius: 99px; white-space: nowrap; }
   .infocon-chip i { width: 7px; height: 7px; border-radius: 99px; background: var(--muted-foreground); }
   .infocon-chip.ok i { background: var(--success); box-shadow: 0 0 8px var(--success); } .infocon-chip.warn i { background: var(--warning); } .infocon-chip.alert i { background: var(--danger); }
@@ -270,10 +270,10 @@
   .iss-tip { background: var(--popover); color: var(--foreground); border: 1px solid var(--border); font: .68rem var(--font-mono); box-shadow: none; } .iss-tip::before { display: none; }
 
   /* ---------- Creator ---------- */
-  .creator-corner { position: fixed; right: clamp(.75rem, 2vw, 1.25rem); bottom: 1rem; z-index: 40; display: flex; flex-direction: column; align-items: flex-end; gap: .5rem; }
+  .creator-corner { position: relative; display: flex; align-items: center; }
   .creator-badge { display: inline-flex; align-items: center; gap: .5rem; padding: .35rem .7rem .35rem .55rem; background: var(--popover); border: 1px solid var(--border); border-radius: 99px; font-size: .76rem; box-shadow: 0 10px 30px -14px var(--background); transition: border-color .2s; }
   .creator-badge:hover { border-color: var(--primary); }
-  .creator-pop { width: min(320px, calc(100vw - 1.5rem)); background: var(--popover); border: 1px solid var(--border); border-radius: calc(var(--radius) + 4px); padding: 1rem; display: grid; gap: .65rem; position: relative; box-shadow: 0 24px 60px -20px var(--background); animation: slide-in .2s ease; }
+  .creator-pop { width: min(320px, calc(100vw - 1.5rem)); background: var(--popover); border: 1px solid var(--border); border-radius: calc(var(--radius) + 4px); padding: 1rem; display: grid; gap: .65rem; position: absolute; top: calc(100% + .5rem); left: 0; box-shadow: 0 24px 60px -20px var(--background); animation: slide-in .2s ease; }
   .pop-close { position: absolute; right: .6rem; top: .6rem; color: var(--muted-foreground); }
   .creator-row { display: flex; gap: .7rem; align-items: center; }
   .avatar { border-radius: 99px; border: 1px solid var(--border); object-fit: cover; }
@@ -299,8 +299,10 @@
     .map-frame { aspect-ratio: 4 / 3.4; }
     .mobile-nav { position: fixed; inset: auto 0 0 0; z-index: 30; display: flex; overflow-x: auto; scrollbar-width: none; background: color-mix(in oklab, var(--sidebar) 95%, transparent); backdrop-filter: blur(10px); border-top: 1px solid var(--border); padding-bottom: env(safe-area-inset-bottom); }
     .mobile-nav .nav-item { flex: 1 0 68px; flex-direction: column; justify-content: center; gap: .2rem; font-size: .62rem; padding: .55rem .2rem; text-align: center; box-shadow: none !important; border-radius: 0; }
-    .creator-corner { bottom: calc(4.4rem + env(safe-area-inset-bottom)); }
+    .creator-pop { position: fixed; top: var(--top-h); left: .75rem; }
+    .creator-badge { white-space: nowrap; }
     .hide-mobile { display: none !important; }
   }
+  @media (max-width: 480px) { .topbar .infocon-chip { display: none; } }
   @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
 }

@@ -47,8 +47,8 @@ export function AssessView({ prefill }: { prefill: AssessPrefill | null }) {
           <label className="micro muted" htmlFor="as-ioc">Indicadores (IOC)</label>
           <textarea id="as-ioc" className="field" rows={2} value={form.indicators} onChange={set('indicators')} maxLength={1500} placeholder="IPs, dominios, hashes, CVE" />
           <p className="muted small">No incluyas contraseñas ni datos personales. La evaluación la genera IA y debe revisarla un analista.</p>
-          {staticPages && <p className="muted small">Ejecuta AETHER OS con el servidor configurado para generar una evaluación.</p>}
-          <Button type="submit" disabled={busy || staticPages}>{busy ? <Loader2 className="spin" /> : <Sparkles />}{busy ? 'Evaluando…' : 'Generar evaluación'}</Button>
+          {staticPages && <p className="muted small">La API del evaluador todavía no está conectada. Las evaluaciones con IA estarán disponibles próximamente.</p>}
+          <Button type="submit" disabled={busy || staticPages}>{busy ? <Loader2 className="spin" /> : <Sparkles />}{staticPages ? 'Próximamente' : busy ? 'Evaluando…' : 'Generar evaluación'}</Button>
           {error && <p className="error-text" role="alert"><AlertTriangle size={14} /> {error}</p>}
         </div>
       </form>
