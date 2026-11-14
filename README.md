@@ -76,3 +76,9 @@ Run `bun run test` for the test suite and `bun run build` for a production build
 - [CISA Known Exploited Vulnerabilities](https://www.cisa.gov/known-exploited-vulnerabilities-catalog) — catálogo de vulnerabilidades con explotación conocida / catalog of known exploited vulnerabilities.
 - [abuse.ch Feodo Tracker](https://feodotracker.abuse.ch/) — indicadores públicos de infraestructura de botnets / public indicators of botnet infrastructure.
 - **Stack** — React, TypeScript, TanStack Start, TanStack Query, Vite y / and Nitro. D3 and Leaflet power the maps.
+
+## Contribuciones / Contributing
+
+Para reportar un problema, abre un [issue](https://github.com/pablo2611/aether-os/issues/new) e incluye el módulo afectado, los pasos para reproducirlo y el resultado esperado. Si envías un cambio, ejecuta `bun run test` e indica cómo lo verificaste.
+
+To report a problem, open an [issue](https://github.com/pablo2611/aether-os/issues/new) and include the affected module, steps to reproduce, and expected behavior. If you submit a change, run `bun run test` and describe how you verified it.
