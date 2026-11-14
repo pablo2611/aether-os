@@ -1,6 +1,6 @@
 # AETHER OS
 
-**Pablo Sánchez** · [@pablo2611](https://github.com/pablo2611)
+**Creado y mantenido por / Created and maintained by [Pablo Sánchez (@pablo2611)](https://github.com/pablo2611)**
 
 [Español](#español) · [English](#english) · [Capturas / Screenshots](#capturas--screenshots)
 
