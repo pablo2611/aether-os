@@ -2,7 +2,7 @@
 
 **Creado y mantenido por / Created and maintained by [Pablo Sánchez (@pablo2611)](https://github.com/pablo2611)**
 
-[Español](#español) · [English](#english) · [Capturas / Screenshots](#capturas--screenshots)
+[Web del proyecto / Project website](https://pablo2611.github.io/aether-os/) · [Español](#español) · [English](#english) · [Capturas / Screenshots](#capturas--screenshots)
 
 ![AETHER OS dashboard with the global threat map and Pablo Sánchez's author badge](docs/images/radar.png)
 
