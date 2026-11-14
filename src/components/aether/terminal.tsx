@@ -3,6 +3,7 @@ import { useServerFn } from '@tanstack/react-start';
 import { CornerDownLeft, Terminal as TerminalIcon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { countryName, entropy, hashText, servicePorts } from '@/lib/aether';
+import { staticPages } from '@/lib/use-live';
 import { lookupDns, lookupIp, type ThreatFeed } from '@/lib/threat-feed.functions';
 import type { Iss } from '@/lib/use-live';
 import { tone } from '@/lib/audio';
@@ -25,7 +26,7 @@ audio on|off · clear · help`;
 export function Terminal({ feed, iss, audio, setAudio, compact = false }: { feed: ThreatFeed | undefined; iss: Iss | null; audio: boolean; setAudio: (on: boolean) => void; compact?: boolean }) {
   const ipLookup = useServerFn(lookupIp);
   const dnsLookup = useServerFn(lookupDns);
-  const [lines, setLines] = useState<{ cmd?: string | undefined; out: string }[]>([{ out: 'AETHER OS 3.0 — terminal con datos en vivo. Escribe help.' }]);
+  const [lines, setLines] = useState<{ cmd?: string | undefined; out: string }[]>([{ out: 'AETHER OS 3.0 — escribe help.' }]);
   const [input, setInput] = useState('');
   const [history, setHistory] = useState<string[]>([]);
   const [cursor, setCursor] = useState(0);
@@ -45,11 +46,18 @@ export function Terminal({ feed, iss, audio, setAudio, compact = false }: { feed
         const name = args[0]; const type = (args[1] || 'A').toUpperCase();
         if (!name || !/^[a-z0-9.-]+\.[a-z]{2,}$/i.test(name)) return 'Uso: dns ejemplo.com [A|AAAA|MX|TXT|NS]';
         if (!['A', 'AAAA', 'MX', 'TXT', 'NS', 'CNAME'].includes(type)) return 'Tipos admitidos: A, AAAA, MX, TXT, NS, CNAME';
-        const d = await dnsLookup({ data: { name, type: type as 'A' } });
+        const d = staticPages
+          ? await fetch('https://dns.google/resolve?' + new URLSearchParams({ name, type })).then(async (response) => {
+              if (!response.ok) throw new Error('El servicio DNS no respondió.');
+              const data = await response.json() as { Status: number; Answer?: { name: string; TTL: number; data: string }[] };
+              return { status: data.Status, answers: (data.Answer ?? []).map((answer) => ({ ...answer, ttl: answer.TTL })) };
+            })
+          : await dnsLookup({ data: { name, type: type as 'A' } });
         if (!d.answers.length) return `Sin registros ${type} para ${name} (estado ${d.status}).`;
         return d.answers.map((a) => `${a.name.padEnd(28)} TTL ${String(a.ttl).padEnd(6)} ${a.data}`).join('\n');
       }
       case 'ip': {
+        if (staticPages) return 'La consulta IPv4 requiere ejecutar el servidor de AETHER OS.';
         if (!args[0]) return 'Uso: ip 8.8.8.8';
         const r = await ipLookup({ data: { ip: args[0] } });
         return [`IP        ${r.ip}`, `Ubicación ${r.city}, ${r.region}, ${r.country}`, `Red       ${r.as} (${r.isp})`, `Hosting   ${r.hosting ? 'sí' : 'no'} · Proxy/VPN ${r.proxy ? 'sí' : 'no'}`, `SANS ISC  ${r.iscReports} reportes · ${r.iscAttacks} objetivos atacados`, `Listas    ${r.feeds.length ? r.feeds.slice(0, 6).join(', ') : 'no aparece en listas de amenazas'}`, `Abuso     ${r.abuseContact}`].join('\n');
@@ -94,7 +102,7 @@ export function Terminal({ feed, iss, audio, setAudio, compact = false }: { feed
 
   return (
     <section className={`terminal-tool ${compact ? 'compact' : ''}`}>
-      <div className="panel-heading"><span><TerminalIcon size={14} /> Terminal</span><span className="micro muted">{busy ? 'EJECUTANDO…' : 'DATOS EN VIVO'}</span></div>
+      <div className="panel-heading"><span><TerminalIcon size={14} /> Terminal</span><span className="micro muted">{busy ? 'EJECUTANDO…' : staticPages ? 'DATOS PUBLICADOS' : 'DATOS EN VIVO'}</span></div>
       <div className="terminal-output" ref={output}>{lines.map((l, i) => <div key={i}>{l.cmd && <pre className="command-line">operator@aether:~$ {l.cmd}</pre>}<pre>{l.out}</pre></div>)}</div>
       <form onSubmit={(e) => { e.preventDefault(); void run(input); }} className="terminal-prompt">
         <label htmlFor={id}>operator<span>@aether</span>:~$</label>

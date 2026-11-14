@@ -18,7 +18,7 @@ AETHER OS es un panel educativo de ciberseguridad defensiva. Reúne reportes pú
 | Satélite y guía | Consultar la posición de la ISS y leer medidas de protección y respuesta. |
 | Evaluador de incidentes | Obtener orientación defensiva a partir de una descripción. Este módulo opcional requiere una credencial del proveedor de IA en el servidor. |
 
-El mapa anima reportes agregados. Los destinos de las animaciones son ilustrativos. La disponibilidad de los datos depende de las fuentes externas.
+La versión de GitHub Pages usa el diseño original y actualiza los reportes varias veces al día. El evaluador de IA y la consulta de reputación IPv4 requieren ejecutar el servidor. El mapa anima reportes agregados. Los destinos de las animaciones son ilustrativos. La disponibilidad de los datos depende de las fuentes externas.
 
 ### Ejecutar en local
 
@@ -45,7 +45,7 @@ AETHER OS is an educational dashboard for defensive cybersecurity. It brings tog
 | Satellite and guide | Check the ISS position and review protection and incident response guidance. |
 | Incident evaluator | Turn an incident description into defensive guidance. This optional module requires an AI provider credential on the server. |
 
-The map animates aggregated reports. Animated destinations are illustrative. Data availability depends on the upstream sources.
+The GitHub Pages edition uses the original design and updates published reports several times a day. The AI evaluator and IPv4 reputation lookup require the application server. The map animates aggregated reports. Animated destinations are illustrative. Data availability depends on the upstream sources.
 
 ### Run locally
 

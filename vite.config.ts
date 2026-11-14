@@ -9,10 +9,15 @@
 // You can pass additional config via defineConfig({ vite: { ... }, etc... }) if needed.
 import { defineConfig } from "@lovable.dev/vite-tanstack-config";
 
+const pages = process.env.AETHER_PAGES === "1";
+
 export default defineConfig({
+  vite: pages ? { base: "/aether-os/" } : {},
+  nitro: pages ? false : {},
   tanstackStart: {
+    spa: pages ? { enabled: true, prerender: { outputPath: "/index.html" } } : undefined,
     // Redirect TanStack Start's bundled server entry to src/server.ts (our SSR error wrapper).
     // nitro/vite builds from this
-    server: { entry: "server" },
+    server: pages ? undefined : { entry: "server" },
   },
 });

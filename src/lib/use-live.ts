@@ -2,9 +2,16 @@ import { useEffect, useState } from 'react';
 import { queryOptions } from '@tanstack/react-query';
 import { getThreatFeed } from './threat-feed.functions';
 
+export const staticPages = import.meta.env.BASE_URL === "/aether-os/";
+
 export const threatFeedQuery = queryOptions({
   queryKey: ['threat-feed'],
-  queryFn: () => getThreatFeed(),
+  queryFn: async () => {
+    if (!staticPages) return getThreatFeed();
+    const response = await fetch(import.meta.env.BASE_URL + "threat-feed.json");
+    if (!response.ok) throw new Error("No se pudo cargar la última captura de datos.");
+    return (await response.json()) as Awaited<ReturnType<typeof getThreatFeed>>;
+  },
   refetchInterval: 60_000,
   staleTime: 55_000,
 });

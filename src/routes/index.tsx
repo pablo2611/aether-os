@@ -15,7 +15,7 @@ import { GuideView } from '@/components/aether/guide-view';
 import { creator } from '@/lib/creator';
 import { CreatorCorner } from '@/components/aether/creator-corner';
 import { countryName, downloadJson, severityFromAttacks, timeAgo } from '@/lib/aether';
-import { threatFeedQuery, useIss, useNow } from '@/lib/use-live';
+import { staticPages, threatFeedQuery, useIss, useNow } from '@/lib/use-live';
 import { tone } from '@/lib/audio';
 
 const views = ['radar', 'intel', 'ai', 'terminal', 'traffic', 'crypto', 'recon', 'guide'] as const;
@@ -44,7 +44,7 @@ export const Route = createFileRoute('/')({
 
 const nav: [View, string, typeof Radar][] = [['radar', 'Mapa', Radar], ['intel', 'Inteligencia', ShieldAlert], ['ai', 'Evaluador IA', Brain], ['terminal', 'Terminal', TerminalIcon], ['traffic', 'Tráfico', Activity], ['crypto', 'Cripto', Hash], ['recon', 'Satélite', Globe2], ['guide', 'Guía', BookOpen]];
 const titles: Record<View, [string, string]> = {
-  radar: ['Mapa de amenazas en vivo', 'IPs atacantes reportadas hoy por la red de sensores DShield de SANS ISC y servidores de botnets de abuse.ch.'],
+  radar: [staticPages ? 'Mapa de amenazas' : 'Mapa de amenazas en vivo', 'IPs atacantes reportadas por la red de sensores DShield de SANS ISC y servidores de botnets de abuse.ch.'],
   intel: ['Inteligencia de amenazas', 'Vulnerabilidades explotadas (CISA KEV), puertos más atacados, botnets y noticias.'],
   ai: ['Evaluador de incidentes con IA', 'Describe un incidente y obtén gravedad y pasos de contención defensivos.'],
   terminal: ['Terminal', 'Consultas reales: DNS, reputación de IPs, CVE y datos del mapa.'],
@@ -116,7 +116,7 @@ function AetherOS() {
         <div className="page-head">
           <div><h1>{title}</h1><p className="muted small">{subtitle}</p></div>
           <div className="live-state">
-            {feedQuery.isFetching ? <span className="micro muted"><RefreshCw size={11} className="spin" /> Actualizando…</span> : feed && now ? <span className="micro muted"><i className="live-dot" />Datos {timeAgo(feed.updatedAt, now)}</span> : null}
+            {feedQuery.isFetching ? <span className="micro muted"><RefreshCw size={11} className="spin" /> Actualizando…</span> : feed && now ? <span className="micro muted"><i className="live-dot" />{staticPages ? "Publicación" : "Datos"} {timeAgo(feed.updatedAt, now)}</span> : null}
             {feed?.errors.length ? <span className="micro warn-text">{feed.errors.join(' · ')}</span> : null}
           </div>
         </div>
@@ -139,7 +139,7 @@ function AetherOS() {
                   </div>
                 </div>
                 <div className="map-frame">
-                  {!feed && <div className="map-loading micro muted"><RefreshCw size={12} className="spin" /> Descargando datos en vivo…</div>}
+                  {!feed && <div className="map-loading micro muted"><RefreshCw size={12} className="spin" /> {feedQuery.isError ? "Datos de amenazas no disponibles" : "Cargando datos de amenazas…"}</div>}
                   <ThreatMap feed={feed} paused={paused} selected={selected} onSelect={setSelected} iss={iss} issTrack={track} />
                 </div>
                 <div className="map-legend">
@@ -178,7 +178,7 @@ function AetherOS() {
                         <span className="micro muted num">{now ? timeAgo(new Date(t.at).toISOString(), now) : ''}</span>
                       </button>); })}
                   </div>
-                  <p className="panel-body muted small">Reproduce en orden los reportes de hoy; se descargan de nuevo cada 5 minutos.</p>
+                  <p className="panel-body muted small">{staticPages ? "Reproducción de reportes de la última actualización publicada." : "Reproduce en orden los reportes de hoy; se descargan de nuevo cada 5 minutos."}</p>
                 </section>
               </aside>
             </div>
