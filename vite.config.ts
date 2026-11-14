@@ -15,6 +15,7 @@ export default defineConfig({
   vite: pages ? { base: "/aether-os/" } : {},
   nitro: pages ? false : {},
   tanstackStart: {
+    client: pages ? { entry: "pages-client" } : undefined,
     spa: pages ? { enabled: true, prerender: { outputPath: "/index.html" } } : undefined,
     // Redirect TanStack Start's bundled server entry to src/server.ts (our SSR error wrapper).
     // nitro/vite builds from this
